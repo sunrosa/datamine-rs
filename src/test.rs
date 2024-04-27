@@ -2,6 +2,8 @@
 
 use super::model;
 
+//TODO use the read_scores_dir() function in the data module to automate creating new tests. They should still be run in parallel, or at least finish evaluation of the next scores despite an error in the previous.
+
 macro_rules! test_number {
     ($fn_name: ident, $num:literal) => {
         #[test]

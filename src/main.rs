@@ -1,24 +1,39 @@
+use std::path::PathBuf;
+
+use serde::{Deserialize, Serialize};
+
+mod data;
 mod model;
 mod test;
 
 fn main() {
-    let test_score = std::fs::OpenOptions::new()
-        .read(true)
-        .open("test_data/0.json")
-        .expect("Error reading test score from file");
+    // let test_score = std::fs::OpenOptions::new()
+    //     .read(true)
+    //     .open("test_data/0.json")
+    //     .expect("Error reading test score from file");
 
-    let score: model::Score =
-        serde_json::from_reader(test_score).expect("Error deserializing test score");
+    // let score: model::Score =
+    //     serde_json::from_reader(test_score).expect("Error deserializing test score");
+
+    // println!(
+    //     "{:?}",
+    //     score
+    //         .route
+    //         .entries
+    //         .get(1)
+    //         .unwrap()
+    //         .stats
+    //         .combat
+    //         .damage_inflicted
+    // );
 
     println!(
         "{:?}",
-        score
-            .route
-            .entries
-            .get(1)
-            .unwrap()
-            .stats
-            .combat
-            .damage_inflicted
+        data::parse_scores_dir().unwrap().first().unwrap().game
     );
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct Config {
+    scores_path: String,
 }
