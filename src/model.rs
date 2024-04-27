@@ -18,6 +18,11 @@ pub struct Score {
     pub last_messages: LastMessages,
     pub map: Map,
     pub best_states: BestStates,
+    pub alien_tech_used: AlienTechUsed,
+    pub achievements: Achievements,
+    pub challenges: Challenges,
+    pub cogshop_purchases: CogshopPurchases,
+    pub game: Game,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -472,4 +477,62 @@ pub struct BestStates {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     particle_charging: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct AlienTechUsed {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    parts: Option<Vec<String>>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Achievements {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    achievements: Option<Vec<String>>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Challenges {}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct CogshopPurchases {}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Game {
+    world_seed: String,
+    run_time: String,
+    cumulative_hours: String,
+    run_start_date: String,
+    run_end_date: String,
+    run_sessions: i32,
+    game_number: i32,
+    game_counts: Vec<i32>,
+    win_type: i32,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    win_total: Option<i32>,
+    win_type_history: Vec<i32>,
+    lore_percent: i32,
+    gallery_percent: i32,
+    achievement_percent: i32,
 }
