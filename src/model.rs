@@ -579,10 +579,7 @@ pub struct Meta {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(
-    rename_all(serialize = "camelCase", deserialize = "camelCase"),
-    //TODO deny_unknown_fields
-)]
+#[serde(rename_all(serialize = "camelCase", deserialize = "camelCase"))]
 pub struct Stats {
     pub build: Build,
     pub resources: Resources,

@@ -11,7 +11,14 @@ fn main() {
         serde_json::from_reader(test_score).expect("Error deserializing test score");
 
     println!(
-        "{}",
-        serde_json::to_string(&score).expect("Error serializing test score")
+        "{:?}",
+        score
+            .route
+            .entries
+            .get(1)
+            .unwrap()
+            .stats
+            .combat
+            .damage_inflicted
     );
 }
