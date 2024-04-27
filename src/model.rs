@@ -1,7 +1,10 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all(serialize = "camelCase", deserialize = "camelCase"))]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    //TODO deny_unknown_fields
+)]
 pub struct Score {
     pub header: Header,
     pub performance: Performance,
@@ -577,6 +580,313 @@ pub struct Meta {
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    //TODO deny_unknown_fields
+)]
+pub struct Stats {
+    pub build: Build,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
 )]
-pub struct Stats {}
+pub struct Build {
+    pub slots_evolved: SlotsEvolved,
+    pub parts_attached: PartsAttached,
+    pub parts_lost: PartsLost,
+    pub average_slot_usage_percent: AverageSlotUsagePercent,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub naked_turns: Option<i32>,
+
+    pub heaviest_build: HeaviestBuild,
+    pub largest_inventory_capacity: LargestInventoryCapacity,
+    pub scrap_engine_consumption: ScrapEngineConsumption,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct SlotsEvolved {
+    pub overall: i32,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub power: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub propulsion: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub utility: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub weapon: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct PartsAttached {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    pub power: PowerAttached,
+    pub propulsion: PropulsionAttached,
+    pub utility: UtilityAttached,
+    pub weapon: WeaponAttached,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub unidentified_prototypes: Option<i32>,
+
+    pub corrupted_parts: CorruptedParts,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct PowerAttached {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub engine: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub core: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub reactor: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct PropulsionAttached {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub leg: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub hover: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub flight: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub treads: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub wheel: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct UtilityAttached {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub device: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub storage: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub processor: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub hackware: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub protection: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct WeaponAttached {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub energy_gun: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub energy_cannon: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ballistic_gun: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ballistic_cannon: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub launcher: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub special_weapon: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub impact_weapon: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct CorruptedParts {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub system_corruption: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct PartsLost {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub power: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub propulsion: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub utility: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub weapon: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub highest_loss_streak: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub to_critical_strikes: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct AverageSlotUsagePercent {
+    pub overall: i32,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub engine: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub core: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub leg: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub device: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub storage: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub processor: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub protection: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub energy_gun: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub energy_cannon: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ballistic_gun: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ballistic_cannon: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub launcher: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub treads: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub flight: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub hover: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub hackware: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub wheel: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct HeaviestBuild {
+    pub overall: i32,
+    pub greatest_support: i32,
+    pub greatest_overweight_times: i32,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub average_overweight_times: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct LargestInventoryCapacity {
+    pub overall: i32,
+    pub average_capacity: i32,
+    pub most_carried: i32,
+    pub average_carried: i32,
+    pub final_capacity: i32,
+    pub final_carried: i32,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct ScrapEngineConsumption {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub constructs_created: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub constructs_modified: Option<i32>,
+}
