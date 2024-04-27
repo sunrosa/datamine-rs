@@ -1,3 +1,5 @@
+use serde::Serialize;
+
 mod model;
 
 fn main() {
@@ -7,5 +9,5 @@ fn main() {
         .unwrap();
 
     let score: model::Score = serde_json::from_reader(test_score).unwrap();
-    println!("{:?}", score);
+    println!("{}", serde_json::to_string(&score).unwrap());
 }

@@ -4,6 +4,8 @@ use serde::{Deserialize, Serialize};
 #[serde(rename_all(serialize = "camelCase", deserialize = "camelCase"))]
 pub struct Score {
     pub header: Header,
+    pub performance: Performance,
+    pub bonus: Bonus,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -16,4 +18,46 @@ pub struct Header {
     pub player_name: String,
     pub run_result: String,
     pub win: bool,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all(serialize = "camelCase", deserialize = "camelCase"))]
+pub struct Performance {
+    total_score: i32,
+    evolutions: CountPoints,
+    regions_visited: CountPoints,
+    robots_destroyed: CountPoints,
+    value_destroyed: CountPoints,
+    prototypes_identified: CountPoints,
+    alien_tech_used: CountPoints,
+    bonus: CountPoints,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all(serialize = "camelCase", deserialize = "camelCase"))]
+pub struct CountPoints {
+    count: i32,
+    points: i32,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all(serialize = "camelCase", deserialize = "camelCase"))]
+pub struct Bonus {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub triggered_max_security: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub high_alert_combat_kills: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub aligned_with_farcom: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub used_core_reset_matrix: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub win: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub entered_dsfs: Option<i32>,
 }
