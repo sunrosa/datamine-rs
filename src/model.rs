@@ -23,6 +23,7 @@ pub struct Score {
     pub challenges: Challenges,
     pub cogshop_purchases: CogshopPurchases,
     pub game: Game,
+    pub options: Options,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -535,4 +536,25 @@ pub struct Game {
     lore_percent: i32,
     gallery_percent: i32,
     achievement_percent: i32,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Options {
+    keyboard: bool,
+    movement: String,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    keybinds: Option<bool>,
+    fullscreen: String,
+    font_set: String,
+    map_width: i32,
+    map_height: i32,
+    tactical_hud: bool,
+    render_filters_map: String,
+    render_filters: String,
+    steam: String,
 }
