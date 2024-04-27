@@ -6,10 +6,14 @@ pub struct Score {
     pub header: Header,
     pub performance: Performance,
     pub bonus: Bonus,
+    pub cogmind: Cogmind,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all(serialize = "camelCase", deserialize = "camelCase"))]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
 pub struct Header {
     pub filename: String,
     pub version: String,
@@ -21,7 +25,10 @@ pub struct Header {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all(serialize = "camelCase", deserialize = "camelCase"))]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
 pub struct Performance {
     total_score: i32,
     evolutions: CountPoints,
@@ -34,14 +41,20 @@ pub struct Performance {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all(serialize = "camelCase", deserialize = "camelCase"))]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
 pub struct CountPoints {
     count: i32,
     points: i32,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all(serialize = "camelCase", deserialize = "camelCase"))]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
 pub struct Bonus {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub triggered_max_security: Option<i32>,
@@ -60,4 +73,67 @@ pub struct Bonus {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub entered_dsfs: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Cogmind {
+    core_integrity: CurrentMaximum,
+    matter: CurrentMaximum,
+    energy: CurrentMaximum,
+    system_corruption: i32,
+    temperature: Temperature,
+    location: Location,
+    movement: Movement,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct CurrentMaximum {
+    current: i32,
+    maximum: i32,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Temperature {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    heat: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    value: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Location {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    depth: Option<i32>,
+
+    map: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Movement {
+    mode: String,
+    speed: i32,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    overweight_factor: Option<i32>,
 }
