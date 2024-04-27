@@ -593,6 +593,7 @@ pub struct Stats {
     pub machines: Machines,
     pub hacking: Hacking,
     pub bothacking: Bothacking,
+    pub allies: Allies,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -2448,3 +2449,97 @@ pub struct RelayCouplersReleased {
     deny_unknown_fields
 )]
 pub struct FabnetPeakEffectivePercent {}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Allies {
+    pub total_allies: TotalAllies,
+    pub zionite_dispatches: ZioniteDispatches,
+    pub total_orders: TotalOrders,
+    pub ally_attacks: AllyAttacks,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub allies_corrupted: Option<i32>,
+
+    pub warlord_squad_rendezvous: WarlordSquadRendezvous,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct TotalAllies {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub largest_group: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub highest_rated_group: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub highest_rated_ally: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct ZioniteDispatches {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub heavy: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub light: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct TotalOrders {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub explore: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub stay: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub follow: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct AllyAttacks {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub total_damage: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub kills: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct WarlordSquadRendezvous {}
