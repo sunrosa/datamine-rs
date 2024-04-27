@@ -1,4 +1,5 @@
 mod model;
+mod test;
 
 fn main() {
     let test_score = std::fs::OpenOptions::new()
