@@ -25,6 +25,7 @@ pub struct Score {
     pub game: Game,
     pub options: Options,
     pub meta: Meta,
+    pub stats: Stats,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -50,14 +51,14 @@ pub struct Header {
     deny_unknown_fields
 )]
 pub struct Performance {
-    total_score: i32,
-    evolutions: CountPoints,
-    regions_visited: CountPoints,
-    robots_destroyed: CountPoints,
-    value_destroyed: CountPoints,
-    prototypes_identified: CountPoints,
-    alien_tech_used: CountPoints,
-    bonus: CountPoints,
+    pub total_score: i32,
+    pub evolutions: CountPoints,
+    pub regions_visited: CountPoints,
+    pub robots_destroyed: CountPoints,
+    pub value_destroyed: CountPoints,
+    pub prototypes_identified: CountPoints,
+    pub alien_tech_used: CountPoints,
+    pub bonus: CountPoints,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -67,9 +68,9 @@ pub struct Performance {
 )]
 pub struct CountPoints {
     #[serde(skip_serializing_if = "Option::is_none")]
-    count: Option<i32>,
+    pub count: Option<i32>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    points: Option<i32>,
+    pub points: Option<i32>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -121,16 +122,16 @@ pub struct Bonus {
     deny_unknown_fields
 )]
 pub struct Cogmind {
-    core_integrity: CurrentMaximum,
-    matter: CurrentMaximum,
-    energy: CurrentMaximum,
+    pub core_integrity: CurrentMaximum,
+    pub matter: CurrentMaximum,
+    pub energy: CurrentMaximum,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    system_corruption: Option<i32>,
+    pub system_corruption: Option<i32>,
 
-    temperature: Temperature,
-    location: Location,
-    movement: Movement,
+    pub temperature: Temperature,
+    pub location: Location,
+    pub movement: Movement,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -140,9 +141,9 @@ pub struct Cogmind {
 )]
 pub struct CurrentMaximum {
     #[serde(skip_serializing_if = "Option::is_none")]
-    current: Option<i32>,
+    pub current: Option<i32>,
 
-    maximum: i32,
+    pub maximum: i32,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -152,10 +153,10 @@ pub struct CurrentMaximum {
 )]
 pub struct Temperature {
     #[serde(skip_serializing_if = "Option::is_none")]
-    heat: Option<String>,
+    pub heat: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    value: Option<i32>,
+    pub value: Option<i32>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -165,9 +166,9 @@ pub struct Temperature {
 )]
 pub struct Location {
     #[serde(skip_serializing_if = "Option::is_none")]
-    depth: Option<i32>,
+    pub depth: Option<i32>,
 
-    map: String,
+    pub map: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -177,12 +178,12 @@ pub struct Location {
 )]
 pub struct Movement {
     #[serde(skip_serializing_if = "Option::is_none")]
-    mode: Option<String>,
+    pub mode: Option<String>,
 
-    speed: i32,
+    pub speed: i32,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    overweight_factor: Option<i32>,
+    pub overweight_factor: Option<i32>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -191,11 +192,11 @@ pub struct Movement {
     deny_unknown_fields
 )]
 pub struct Parts {
-    power: SlotsParts,
-    propulsion: SlotsParts,
-    utility: SlotsParts,
-    weapon: SlotsParts,
-    inventory: SlotsParts,
+    pub power: SlotsParts,
+    pub propulsion: SlotsParts,
+    pub utility: SlotsParts,
+    pub weapon: SlotsParts,
+    pub inventory: SlotsParts,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -204,10 +205,10 @@ pub struct Parts {
     deny_unknown_fields
 )]
 pub struct SlotsParts {
-    slots: i32,
+    pub slots: i32,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    parts: Option<Vec<String>>,
+    pub parts: Option<Vec<String>>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -217,8 +218,8 @@ pub struct SlotsParts {
 )]
 pub struct PeakState {
     #[serde(flatten)]
-    parts: Parts,
-    rating: i32,
+    pub parts: Parts,
+    pub rating: i32,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -227,10 +228,10 @@ pub struct PeakState {
     deny_unknown_fields
 )]
 pub struct Favorites {
-    power: PowerFavorites,
-    propulsion: PropulsionFavorites,
-    utility: UtilityFavorites,
-    weapon: WeaponFavorites,
+    pub power: PowerFavorites,
+    pub propulsion: PropulsionFavorites,
+    pub utility: UtilityFavorites,
+    pub weapon: WeaponFavorites,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -239,16 +240,16 @@ pub struct Favorites {
     deny_unknown_fields
 )]
 pub struct PowerFavorites {
-    overall: String,
+    pub overall: String,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    engine: Option<String>,
+    pub engine: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    power_core: Option<String>,
+    pub power_core: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    reactor: Option<String>,
+    pub reactor: Option<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -257,21 +258,21 @@ pub struct PowerFavorites {
     deny_unknown_fields
 )]
 pub struct PropulsionFavorites {
-    overall: String,
+    pub overall: String,
     #[serde(skip_serializing_if = "Option::is_none")]
-    leg: Option<String>,
+    pub leg: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    hover_unit: Option<String>,
+    pub hover_unit: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    flight_unit: Option<String>,
+    pub flight_unit: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    treads: Option<String>,
+    pub treads: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    wheel: Option<String>,
+    pub wheel: Option<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -280,22 +281,22 @@ pub struct PropulsionFavorites {
     deny_unknown_fields
 )]
 pub struct UtilityFavorites {
-    overall: String,
+    pub overall: String,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    device: Option<String>,
+    pub device: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    storage: Option<String>,
+    pub storage: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    processor: Option<String>,
+    pub processor: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    hackware: Option<String>,
+    pub hackware: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    protection: Option<String>,
+    pub protection: Option<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -304,28 +305,28 @@ pub struct UtilityFavorites {
     deny_unknown_fields
 )]
 pub struct WeaponFavorites {
-    overall: String,
+    pub overall: String,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    energy_gun: Option<String>,
+    pub energy_gun: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    energy_cannon: Option<String>,
+    pub energy_cannon: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    ballistic_cannon: Option<String>,
+    pub ballistic_cannon: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    ballistic_gun: Option<String>,
+    pub ballistic_gun: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    launcher: Option<String>,
+    pub launcher: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    special_weapon: Option<String>,
+    pub special_weapon: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    impact_weapon: Option<String>,
+    pub impact_weapon: Option<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -334,7 +335,7 @@ pub struct WeaponFavorites {
     deny_unknown_fields
 )]
 pub struct ClassDistribution {
-    classes: Vec<ClassPercent>,
+    pub classes: Vec<ClassPercent>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -343,8 +344,8 @@ pub struct ClassDistribution {
     deny_unknown_fields
 )]
 pub struct ClassPercent {
-    name: String,
-    percent: i32,
+    pub name: String,
+    pub percent: i32,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -353,8 +354,8 @@ pub struct ClassPercent {
     deny_unknown_fields
 )]
 pub struct HistoryEventWin {
-    turn: i32,
-    event: String,
+    pub turn: i32,
+    pub event: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -363,7 +364,7 @@ pub struct HistoryEventWin {
     deny_unknown_fields
 )]
 pub struct LastMessages {
-    messages: Vec<String>,
+    pub messages: Vec<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -372,7 +373,7 @@ pub struct LastMessages {
     deny_unknown_fields
 )]
 pub struct Map {
-    lines: Vec<String>,
+    pub lines: Vec<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -382,103 +383,103 @@ pub struct Map {
 )]
 pub struct BestStates {
     #[serde(skip_serializing_if = "Option::is_none")]
-    heat_dissipation: Option<i32>,
+    pub heat_dissipation: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    energy_generation: Option<i32>,
+    pub energy_generation: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    energy_capacity: Option<i32>,
+    pub energy_capacity: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    matter_stores: Option<i32>,
+    pub matter_stores: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    matter_capacity: Option<i32>,
+    pub matter_capacity: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    sight_range: Option<i32>,
+    pub sight_range: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    terrain_scan_density: Option<i32>,
+    pub terrain_scan_density: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    evasion: Option<i32>,
+    pub evasion: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    offensive_hacking: Option<i32>,
+    pub offensive_hacking: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    defensive_hacking: Option<i32>,
+    pub defensive_hacking: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    additional_mass_support: Option<i32>,
+    pub additional_mass_support: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    power_amplification: Option<i32>,
+    pub power_amplification: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    jamming_range: Option<i32>,
+    pub jamming_range: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    coolant_potential: Option<i32>,
+    pub coolant_potential: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    robot_scan_range: Option<i32>,
+    pub robot_scan_range: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    terrain_scan_range: Option<i32>,
+    pub terrain_scan_range: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    ecm_strength: Option<i32>,
+    pub ecm_strength: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    cloak_strength: Option<i32>,
+    pub cloak_strength: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    em_shielding: Option<i32>,
+    pub em_shielding: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    armor_coverage: Option<i32>,
+    pub armor_coverage: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    resistance_ki: Option<i32>,
+    pub resistance_ki: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    resistance_th: Option<i32>,
+    pub resistance_th: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    recoil_reduction: Option<i32>,
+    pub recoil_reduction: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    utility_shielding: Option<i32>,
+    pub utility_shielding: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    targeting_accuracy: Option<i32>,
+    pub targeting_accuracy: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    weapon_shielding: Option<i32>,
+    pub weapon_shielding: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    targeting_analysis: Option<i32>,
+    pub targeting_analysis: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    resistance_em: Option<i32>,
+    pub resistance_em: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    target_analysis: Option<i32>,
+    pub target_analysis: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    matter_filtering: Option<i32>,
+    pub matter_filtering: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    phase_shifting: Option<i32>,
+    pub phase_shifting: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    core_analysis: Option<i32>,
+    pub core_analysis: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    particle_charging: Option<i32>,
+    pub particle_charging: Option<i32>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -488,7 +489,7 @@ pub struct BestStates {
 )]
 pub struct AlienTechUsed {
     #[serde(skip_serializing_if = "Option::is_none")]
-    parts: Option<Vec<String>>,
+    pub parts: Option<Vec<String>>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -498,7 +499,7 @@ pub struct AlienTechUsed {
 )]
 pub struct Achievements {
     #[serde(skip_serializing_if = "Option::is_none")]
-    achievements: Option<Vec<String>>,
+    pub achievements: Option<Vec<String>>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -521,22 +522,22 @@ pub struct CogshopPurchases {}
     deny_unknown_fields
 )]
 pub struct Game {
-    world_seed: String,
-    run_time: String,
-    cumulative_hours: String,
-    run_start_date: String,
-    run_end_date: String,
-    run_sessions: i32,
-    game_number: i32,
-    game_counts: Vec<i32>,
-    win_type: i32,
+    pub world_seed: String,
+    pub run_time: String,
+    pub cumulative_hours: String,
+    pub run_start_date: String,
+    pub run_end_date: String,
+    pub run_sessions: i32,
+    pub game_number: i32,
+    pub game_counts: Vec<i32>,
+    pub win_type: i32,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    win_total: Option<i32>,
-    win_type_history: Vec<i32>,
-    lore_percent: i32,
-    gallery_percent: i32,
-    achievement_percent: i32,
+    pub win_total: Option<i32>,
+    pub win_type_history: Vec<i32>,
+    pub lore_percent: i32,
+    pub gallery_percent: i32,
+    pub achievement_percent: i32,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -545,19 +546,19 @@ pub struct Game {
     deny_unknown_fields
 )]
 pub struct Options {
-    keyboard: bool,
-    movement: String,
+    pub keyboard: bool,
+    pub movement: String,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    keybinds: Option<bool>,
-    fullscreen: String,
-    font_set: String,
-    map_width: i32,
-    map_height: i32,
-    tactical_hud: bool,
-    render_filters_map: String,
-    render_filters: String,
-    steam: String,
+    pub keybinds: Option<bool>,
+    pub fullscreen: String,
+    pub font_set: String,
+    pub map_width: i32,
+    pub map_height: i32,
+    pub tactical_hud: bool,
+    pub render_filters_map: String,
+    pub render_filters: String,
+    pub steam: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -566,9 +567,16 @@ pub struct Options {
     deny_unknown_fields
 )]
 pub struct Meta {
-    run_guid: String,
-    player_public_key: String,
-    player_guid: String,
-    player_id: i32,
-    run_id: i32,
+    pub run_guid: String,
+    pub player_public_key: String,
+    pub player_guid: String,
+    pub player_id: i32,
+    pub run_id: i32,
 }
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Stats {}
