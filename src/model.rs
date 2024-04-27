@@ -8,6 +8,8 @@ pub struct Score {
     pub bonus: Bonus,
     pub cogmind: Cogmind,
     pub parts: Parts,
+    pub peak_state: PeakState,
+    pub favorites: Favorites,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -191,4 +193,122 @@ pub struct SlotsParts {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     parts: Option<Vec<String>>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct PeakState {
+    #[serde(flatten)]
+    parts: Parts,
+    rating: i32,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Favorites {
+    power: PowerFavorites,
+    propulsion: PropulsionFavorites,
+    utility: UtilityFavorites,
+    weapon: WeaponFavorites,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct PowerFavorites {
+    overall: String,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    engine: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    power_core: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    reactor: Option<String>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct PropulsionFavorites {
+    overall: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    leg: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    hover_unit: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    flight_unit: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    treads: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    wheel: Option<String>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct UtilityFavorites {
+    overall: String,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    device: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    storage: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    processor: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    hackware: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    protection: Option<String>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct WeaponFavorites {
+    overall: String,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    energy_gun: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    energy_cannon: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    ballistic_cannon: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    ballistic_gun: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    launcher: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    special_weapon: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    impact_weapon: Option<String>,
 }
