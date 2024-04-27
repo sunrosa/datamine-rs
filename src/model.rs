@@ -21,7 +21,9 @@ pub struct Header {
     pub run_end_time: String,
     pub player_name: String,
     pub run_result: String,
-    pub win: bool,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub win: Option<bool>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -46,8 +48,10 @@ pub struct Performance {
     deny_unknown_fields
 )]
 pub struct CountPoints {
-    count: i32,
-    points: i32,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    count: Option<i32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    points: Option<i32>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -63,6 +67,12 @@ pub struct Bonus {
     pub high_alert_combat_kills: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
+    pub follower_combat_kills: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub entered_garrisons: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub aligned_with_farcom: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -73,6 +83,18 @@ pub struct Bonus {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub entered_dsfs: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub friendly_fire: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub met_data_miner: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub met_imprinter: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub was_imprinted: Option<i32>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -84,7 +106,10 @@ pub struct Cogmind {
     core_integrity: CurrentMaximum,
     matter: CurrentMaximum,
     energy: CurrentMaximum,
-    system_corruption: i32,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    system_corruption: Option<i32>,
+
     temperature: Temperature,
     location: Location,
     movement: Movement,
@@ -96,7 +121,9 @@ pub struct Cogmind {
     deny_unknown_fields
 )]
 pub struct CurrentMaximum {
-    current: i32,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    current: Option<i32>,
+
     maximum: i32,
 }
 
@@ -131,7 +158,9 @@ pub struct Location {
     deny_unknown_fields
 )]
 pub struct Movement {
-    mode: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    mode: Option<String>,
+
     speed: i32,
 
     #[serde(skip_serializing_if = "Option::is_none")]
