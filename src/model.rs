@@ -596,6 +596,7 @@ pub struct Stats {
     pub allies: Allies,
     pub intel: Intel,
     pub exploration: Exploration,
+    pub actions: Actions,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -2751,3 +2752,73 @@ pub struct TerrainDestroyed {
     deny_unknown_fields
 )]
 pub struct TerrainRammed {}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Actions {
+    pub total: TotalActions,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct TotalActions {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub wait: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none", rename = "move")]
+    pub moves: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub pick_up: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub fast_attach: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub attach: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub detach: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub swap: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub drop: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub fire: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ram: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub crush: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub escape_stasis: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub rewire: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub melee: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub hop: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub kick: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub miscellaneous: Option<i32>,
+}
