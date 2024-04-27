@@ -24,6 +24,7 @@ pub struct Score {
     pub cogshop_purchases: CogshopPurchases,
     pub game: Game,
     pub options: Options,
+    pub meta: Meta,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -557,4 +558,17 @@ pub struct Options {
     render_filters_map: String,
     render_filters: String,
     steam: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Meta {
+    run_guid: String,
+    player_public_key: String,
+    player_guid: String,
+    player_id: i32,
+    run_id: i32,
 }
