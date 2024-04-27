@@ -7,6 +7,7 @@ pub struct Score {
     pub performance: Performance,
     pub bonus: Bonus,
     pub cogmind: Cogmind,
+    pub parts: Parts,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -165,4 +166,29 @@ pub struct Movement {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     overweight_factor: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Parts {
+    power: SlotsParts,
+    propulsion: SlotsParts,
+    utility: SlotsParts,
+    weapon: SlotsParts,
+    inventory: SlotsParts,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct SlotsParts {
+    slots: i32,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    parts: Option<Vec<String>>,
 }
