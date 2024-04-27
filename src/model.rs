@@ -29,6 +29,7 @@ pub struct Score {
     pub options: Options,
     pub meta: Meta,
     pub stats: Stats,
+    pub route: Route,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -624,7 +625,8 @@ pub struct Build {
     deny_unknown_fields
 )]
 pub struct SlotsEvolved {
-    pub overall: i32,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub power: Option<i32>,
@@ -806,7 +808,8 @@ pub struct PartsLost {
     deny_unknown_fields
 )]
 pub struct AverageSlotUsagePercent {
-    pub overall: i32,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub engine: Option<i32>,
@@ -858,6 +861,12 @@ pub struct AverageSlotUsagePercent {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub wheel: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub special_weapon: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub reactor: Option<i32>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -866,9 +875,13 @@ pub struct AverageSlotUsagePercent {
     deny_unknown_fields
 )]
 pub struct HeaviestBuild {
-    pub overall: i32,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
     pub greatest_support: i32,
-    pub greatest_overweight_times: i32,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub greatest_overweight_times: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub average_overweight_times: Option<i32>,
@@ -880,10 +893,17 @@ pub struct HeaviestBuild {
     deny_unknown_fields
 )]
 pub struct LargestInventoryCapacity {
-    pub overall: i32,
-    pub average_capacity: i32,
-    pub most_carried: i32,
-    pub average_carried: i32,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub average_capacity: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub most_carried: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub average_carried: Option<i32>,
     pub final_capacity: i32,
     pub final_carried: i32,
 }
@@ -1127,7 +1147,10 @@ pub struct MaxKillsInSingleTurn {
 )]
 pub struct Combat {
     pub damage_taken: DamageTaken,
-    pub core_remaining_percent: i32,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub core_remaining_percent: Option<i32>,
+
     pub volleys_fired: VolleysFired,
     pub shots_fired: ShotsFired,
     pub shots_hit_robots: ShotsHitRobots,
@@ -2821,4 +2844,88 @@ pub struct TotalActions {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub miscellaneous: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Route {
+    pub entries: Vec<RouteEntry>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct RouteEntry {
+    pub location: Location,
+    pub discovered_exits: Vec<DiscoveredExit>,
+    pub stats: Stats,
+    pub history_events: Vec<HistoryEvent>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub obtained_schematics: Option<Vec<Schematic>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub dominant_class: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub fabricated_objects: Option<Vec<FabricatedObject>>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct DiscoveredExit {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub destination: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub destination_known: Option<bool>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub reached: Option<bool>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub count: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct HistoryEvent {
+    pub turn: i32,
+    pub event: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Schematic {
+    pub name: String,
+
+    #[serde(skip_serializing_if = "Option::is_none", rename = "type")]
+    pub schematic_type: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub method: Option<String>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct FabricatedObject {
+    name: String,
+    count: i32,
 }
