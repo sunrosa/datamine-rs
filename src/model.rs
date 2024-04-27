@@ -589,6 +589,7 @@ pub struct Stats {
     pub combat: Combat,
     pub alert: Alert,
     pub stealth: Stealth,
+    pub traps: Traps,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -1793,3 +1794,63 @@ pub struct TimesSpotted {
     deny_unknown_fields
 )]
 pub struct IdMasksUsed {}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Traps {
+    pub traps_triggered: TrapsTriggered,
+    pub trap_hack_attempts: TrapHackAttempts,
+    pub traps_extracted: TrapsExtracted,
+    pub objects_rigged: ObjectsRigged,
+    pub time_bombs_activated: TimeBombsActivated,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct TrapsTriggered {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub indirectly: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct TrapHackAttempts {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub disarmed: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct TrapsExtracted {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub triggered: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct ObjectsRigged {}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct TimeBombsActivated {}
