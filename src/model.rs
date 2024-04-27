@@ -587,6 +587,8 @@ pub struct Stats {
     pub resources: Resources,
     pub kills: Kills,
     pub combat: Combat,
+    pub alert: Alert,
+    pub stealth: Stealth,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -1644,3 +1646,150 @@ pub struct HostileShotsFired {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub missed: Option<i32>,
 }
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Alert {
+    pub peak_influence: PeakInfluence,
+    pub maximum_alert_level: MaximumAlertLevel,
+    pub squads_dispatched: SquadsDispatched,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub construction_impeded: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub haulers_reinforced: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub cargo_convoy_interrupts: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub searches_triggered: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct PeakInfluence {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub average_influence: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub initial_influence: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct MaximumAlertLevel {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub low_security_percent: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub level1: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub level2: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub level3: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub level4: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub level5: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub max_security: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct SquadsDispatched {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub investigation: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub extermination: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub reinforcement: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub assault: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub garrison: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Stealth {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    distress_signals: Option<i32>,
+
+    communications_jammed: CommunicationsJammed,
+
+    times_spotted: TimesSpotted,
+
+    id_masks_used: IdMasksUsed,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct CommunicationsJammed {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub distress_signals: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct TimesSpotted {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub peak_tracking_total: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub tactical_retreats: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct IdMasksUsed {}
