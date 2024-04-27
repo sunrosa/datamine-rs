@@ -590,6 +590,8 @@ pub struct Stats {
     pub alert: Alert,
     pub stealth: Stealth,
     pub traps: Traps,
+    pub machines: Machines,
+    pub hacking: Hacking,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -1854,3 +1856,513 @@ pub struct ObjectsRigged {}
     deny_unknown_fields
 )]
 pub struct TimeBombsActivated {}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Machines {
+    pub machines_disabled: MachinesDisabled,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct MachinesDisabled {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub max_in_single_turn: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub garrison_access: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Hacking {
+    pub machines_accessed: MachinesAccessed,
+    pub total_hacks: TotalHacks,
+    pub terminal_hacks: TerminalHacks,
+    pub fabricator_hacks: FabricatorHacks,
+    pub repair_station_hacks: RepairStationHacks,
+    pub recycling_unit_hacks: RecyclingUnitHacks,
+    pub scanalyzer: ScanalyzerHacks,
+    pub garrison_access_hacks: GarrisonAccessHacks,
+    pub unauthorized_hacks: UnauthorizedHacks,
+    pub data_cores_recovered: DataCoresRecovered,
+    pub hacking_detections: HackingDetections,
+    pub robot_schematics_acquired: RobotSchematicsAcquired,
+    pub part_schematics_acquired: PartSchematicsAcquired,
+    pub parts_repaired: PartsRepaired,
+    pub parts_recycled: PartsRecycled,
+    pub parts_scanalyzed: PartsScanalyzed,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct MachinesAccessed {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub terminals: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub fabricators: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub repair_stations: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub recycling_units: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub scanalyzers: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub garrison_access: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct TotalHacks {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub successful: Option<i32>,
+
+    pub failed: FailedHacks,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub database_lockouts: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub manual: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub terminals: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub fabricators: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub repair_stations: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub recycling_units: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub scanalyzers: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub garrison_access: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct FailedHacks {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub catastrophic: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct TerminalHacks {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub record: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub part_schematic: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub robot_schematic: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub robot_analysis: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub prototype_id_bank: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub open_door: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub terminal_index: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub alert_level: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub patrol_status: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub registered_components: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub open_dsf: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub unreport_threat: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub level_access_points: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub branch_access_points: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub emergency_access_points: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub fabricator_index: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub recycling_unit_index: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub repair_station_index: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub locate_traps: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub recall_reinforcements: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub recall_investigation: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub zone_layout: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub maintenance_status: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub security_status: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub disarm_traps: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub hauler_manifests: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct FabricatorHacks {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub network_status: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub load_schematic: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub build: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct RepairStationHacks {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub scan_component: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub repair: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct RecyclingUnitHacks {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub process: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub report_inventory: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub retrieve_components: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub retrieve_matter: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct ScanalyzerHacks {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub insert_component: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub analyze: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct GarrisonAccessHacks {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub seal_access: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub unlock_access: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub coupler_status: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct UnauthorizedHacks {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    pub terminals: TerminalUnauthorizedHacks,
+    pub fabricators: FabricatorUnauthorizedHacks,
+    pub repair_stations: RepairStationUnauthorizedHacks,
+    pub recycling_units: RecyclingUnitUnauthorizedHacks,
+    pub scanalyzers: ScanalyzerUnauthorizedHacks,
+    pub garrison_access: GarrisonAccessUnauthorizedHacks,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct TerminalUnauthorizedHacks {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub botnet: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub operators: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub assimilate: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct FabricatorUnauthorizedHacks {}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct RepairStationUnauthorizedHacks {}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct RecyclingUnitUnauthorizedHacks {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub mask: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub tunnel: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct ScanalyzerUnauthorizedHacks {}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct GarrisonAccessUnauthorizedHacks {}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct DataCoresRecovered {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub used: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct HackingDetections {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub full_trace_events: Option<i32>,
+
+    pub feedback_events: FeedbackEvents,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct FeedbackEvents {}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct RobotSchematicsAcquired {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    pub robots_built: RobotsBuilt,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct RobotsBuilt {}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct PartSchematicsAcquired {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    pub parts_built: PartsBuilt,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub total_part_build_rating: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct PartsBuilt {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub time: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct PartsRepaired {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub time: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct PartsRecycled {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub retrieved_components: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct PartsScanalyzed {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub part_schematics_acquired: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub parts_damaged: Option<i32>,
+}
