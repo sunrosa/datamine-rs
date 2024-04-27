@@ -10,6 +10,14 @@ pub struct Score {
     pub parts: Parts,
     pub peak_state: PeakState,
     pub favorites: Favorites,
+    pub class_distribution: ClassDistribution,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub history_event_win: Option<HistoryEventWin>,
+
+    pub last_messages: LastMessages,
+    pub map: Map,
+    pub best_states: BestStates,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -311,4 +319,157 @@ pub struct WeaponFavorites {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     impact_weapon: Option<String>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct ClassDistribution {
+    classes: Vec<ClassPercent>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct ClassPercent {
+    name: String,
+    percent: i32,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct HistoryEventWin {
+    turn: i32,
+    event: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct LastMessages {
+    messages: Vec<String>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Map {
+    lines: Vec<String>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct BestStates {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    heat_dissipation: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    energy_generation: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    energy_capacity: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    matter_stores: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    matter_capacity: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    sight_range: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    terrain_scan_density: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    evasion: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    offensive_hacking: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    defensive_hacking: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    additional_mass_support: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    power_amplification: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    jamming_range: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    coolant_potential: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    robot_scan_range: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    terrain_scan_range: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    ecm_strength: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    cloak_strength: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    em_shielding: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    armor_coverage: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    resistance_ki: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    resistance_th: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    recoil_reduction: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    utility_shielding: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    targeting_accuracy: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    weapon_shielding: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    targeting_analysis: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    resistance_em: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    target_analysis: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    matter_filtering: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    phase_shifting: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    core_analysis: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    particle_charging: Option<i32>,
 }
