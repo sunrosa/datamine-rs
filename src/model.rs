@@ -592,6 +592,7 @@ pub struct Stats {
     pub traps: Traps,
     pub machines: Machines,
     pub hacking: Hacking,
+    pub bothacking: Bothacking,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -2366,3 +2367,84 @@ pub struct PartsScanalyzed {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub parts_damaged: Option<i32>,
 }
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Bothacking {
+    used_rif_installer: UsedRifInstaller,
+    robots_hacked: RobotsHacked,
+    robot_hacks_applied: RobotHacksApplied,
+    relay_couplers_released: RelayCouplersReleased,
+    fabnet_peak_effective_percent: FabnetPeakEffectivePercent,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub robots_rewired: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct UsedRifInstaller {}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct RobotsHacked {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub non_combat: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct RobotHacksApplied {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub parse_system: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub no_distress: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub check_alert: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub find_chute: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct RelayCouplersReleased {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub machine_destruction: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub programmers: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct FabnetPeakEffectivePercent {}
