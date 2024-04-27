@@ -594,6 +594,7 @@ pub struct Stats {
     pub hacking: Hacking,
     pub bothacking: Bothacking,
     pub allies: Allies,
+    pub intel: Intel,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -2543,3 +2544,80 @@ pub struct AllyAttacks {
     deny_unknown_fields
 )]
 pub struct WarlordSquadRendezvous {}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Intel {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub robot_analysis_total: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub derelict_logs_recovered: Option<i32>,
+
+    pub drone_launches: DroneLaunches,
+    pub decoded_0b10_intel: Decoded0b10Intel,
+    pub zionite_intel_received: ZioniteIntelReceived,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct DroneLaunches {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub drone_recoveries: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Decoded0b10Intel {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub traps: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub emergency_access: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub items: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub machines: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub patrols: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub guards: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct ZioniteIntelReceived {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub prototype_stockpiles: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub prototype_schematics: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub unaware_analyses: Option<i32>,
+}
