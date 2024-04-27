@@ -595,6 +595,7 @@ pub struct Stats {
     pub bothacking: Bothacking,
     pub allies: Allies,
     pub intel: Intel,
+    pub exploration: Exploration,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -2621,3 +2622,132 @@ pub struct ZioniteIntelReceived {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub unaware_analyses: Option<i32>,
 }
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Exploration {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub turns_passed: Option<i32>,
+
+    pub spaces_moved: SpacesMoved,
+    pub exploration_rate_percent: ExplorationRatePercent,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub scrap_searched: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub spaces_dug: Option<i32>,
+
+    pub terrain_destroyed: TerrainDestroyed,
+
+    pub terrain_rammed: TerrainRammed,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct SpacesMoved {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub core: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub treads: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub wheels: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub legs: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub flight: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub fastest_speed: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub average_speed: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub slowest_speed: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub robots_hopped: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub hover: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub time_travels: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    overloaded_moves: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    cave_ins_triggered: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct ExplorationRatePercent {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    pub regions_visited: RegionsVisited,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub pre_discovered_areas: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub known_exits_taken: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub unknown_exits_taken: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct RegionsVisited {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub branch_regions: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct TerrainDestroyed {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub projectile: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub aoe: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct TerrainRammed {}
