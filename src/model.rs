@@ -584,6 +584,7 @@ pub struct Meta {
 )]
 pub struct Stats {
     pub build: Build,
+    pub resources: Resources,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -889,4 +890,72 @@ pub struct ScrapEngineConsumption {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub constructs_modified: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct Resources {
+    pub matter_collected: MatterCollected,
+    pub salvage_created: SalvageCreated,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub haulers_intercepted: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub recyclers_shooed: Option<i32>,
+
+    pub parts_field_recycled: PartsFieldRecycled,
+    pub parts_self_destructed: PartsSelfDestructed,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct MatterCollected {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct SalvageCreated {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub parts: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct PartsFieldRecycled {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub retrieved_matter: Option<i32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(
+    rename_all(serialize = "camelCase", deserialize = "camelCase"),
+    deny_unknown_fields
+)]
+pub struct PartsSelfDestructed {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub prevented: Option<i32>,
 }
