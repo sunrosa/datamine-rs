@@ -1,3 +1,7 @@
+pub mod serialization;
+use chrono::NaiveDate;
+use serialization::*;
+
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -529,8 +533,13 @@ pub struct Game {
     pub world_seed: String,
     pub run_time: String,
     pub cumulative_hours: String,
-    pub run_start_date: String,
-    pub run_end_date: String,
+
+    #[serde(deserialize_with = "into_naivedate", serialize_with = "from_naivedate")]
+    pub run_start_date: NaiveDate,
+
+    #[serde(deserialize_with = "into_naivedate", serialize_with = "from_naivedate")]
+    pub run_end_date: NaiveDate,
+
     pub run_sessions: i32,
     pub game_number: i32,
     pub game_counts: Vec<i32>,

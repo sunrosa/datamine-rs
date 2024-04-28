@@ -1,5 +1,4 @@
 use serde::{Deserialize, Serialize};
-use stat::Scores;
 
 mod data;
 mod model;
@@ -8,8 +7,8 @@ mod test;
 
 fn main() {
     println!(
-        "{:?}",
-        data::parse_scores_dir().unwrap().into_iter().win_count()
+        "{}",
+        serde_json::to_string(&data::parse_scores_dir().unwrap().first().unwrap().game).unwrap()
     );
 }
 
