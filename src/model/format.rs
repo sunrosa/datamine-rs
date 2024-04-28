@@ -1,4 +1,4 @@
-use chrono::{Datelike, NaiveDate, NaiveTime, Timelike};
+use chrono::{Datelike, Duration, NaiveDate, NaiveTime, Timelike};
 use serde::{
     de::{self},
     Deserialize, Deserializer, Serializer,
@@ -92,4 +92,39 @@ where
     let minute = x.minute();
     let second = x.second();
     s.serialize_str(&format!("{:0>2}{:0>2}{:0>2}", hour, minute, second))
+}
+
+pub fn de_duration<'de, D>(deserializer: D) -> Result<Duration, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    let s: String = Deserialize::deserialize(deserializer)?;
+    let splits: Vec<&str> = s.split(':').collect();
+
+    if splits.len() != 3 {
+        return Err(de::Error::custom(format!(
+            "Number of splits incorrect: {:?}",
+            splits
+        )));
+    }
+
+    Ok(Duration::hours(splits[0].parse().map_err(|e| {
+        de::Error::custom(format!("Cannot convert {} to integer: {e}", splits[0]))
+    })?) + Duration::minutes(splits[1].parse().map_err(|e| {
+        de::Error::custom(format!("Cannot convert {} to integer: {e}", splits[1]))
+    })?) + Duration::seconds(splits[2].parse().map_err(|e| {
+        de::Error::custom(format!("Cannot convert {} to integer: {e}", splits[2]))
+    })?))
+}
+
+pub fn ser_duration<S>(x: &Duration, s: S) -> Result<S::Ok, S::Error>
+where
+    S: Serializer,
+{
+    s.serialize_str(&format!(
+        "{:0>2}:{:0>2}:{:0>2}:",
+        x.num_hours(),
+        x.num_minutes() % 60,
+        x.num_seconds() % 60
+    ))
 }

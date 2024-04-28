@@ -1,5 +1,5 @@
 pub mod format;
-use chrono::{NaiveDate, NaiveTime};
+use chrono::{Duration, NaiveDate, NaiveTime};
 use format::*;
 
 use serde::{Deserialize, Serialize};
@@ -536,7 +536,8 @@ pub struct CogshopPurchases {}
 )]
 pub struct Game {
     pub world_seed: String,
-    pub run_time: String,
+    #[serde(deserialize_with = "de_duration", serialize_with = "ser_duration")]
+    pub run_time: Duration,
     pub cumulative_hours: String,
 
     #[serde(deserialize_with = "de_naivedate", serialize_with = "ser_naivedate")]
