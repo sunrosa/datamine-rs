@@ -34,9 +34,9 @@ where
         .map_err(|e| de::Error::custom(format!("Error parsing day into integer: {e}")))?;
 
     Ok(
-        NaiveDate::from_ymd_opt(year, month, day).ok_or(de::Error::custom(
-            format!("Could not convert year \"{year}\", month \"{month}\", and day \"{day}\", into NaiveDate"),
-        ))?,
+        NaiveDate::from_ymd_opt(year, month, day).ok_or(de::Error::custom(format!(
+            "Could not convert year ({year}), month ({month}), and day ({day}), into NaiveDate"
+        )))?,
     )
 }
 
@@ -79,7 +79,7 @@ where
 
     Ok(
         NaiveTime::from_hms_opt(hour, minute, second).ok_or(de::Error::custom(
-            format!("Could not convert hour \"{hour}\", minute \"{minute}\", and second \"{second}\", into NaiveTime"),
+            format!("Could not convert hour ({hour}), minute ({minute}), and second ({second}), into NaiveTime"),
         ))?,
     )
 }
@@ -108,13 +108,23 @@ where
         )));
     }
 
-    Ok(Duration::hours(splits[0].parse().map_err(|e| {
+    let hours = splits[0].parse().map_err(|e| {
         de::Error::custom(format!("Cannot convert {} to integer: {e}", splits[0]))
-    })?) + Duration::minutes(splits[1].parse().map_err(|e| {
+    })?;
+    let minutes = splits[1].parse().map_err(|e| {
         de::Error::custom(format!("Cannot convert {} to integer: {e}", splits[1]))
-    })?) + Duration::seconds(splits[2].parse().map_err(|e| {
+    })?;
+    let seconds = splits[2].parse().map_err(|e| {
         de::Error::custom(format!("Cannot convert {} to integer: {e}", splits[2]))
-    })?))
+    })?;
+
+    if minutes > 60 || seconds > 60 {
+        return Err(de::Error::custom(format!(
+            "Minutes ({minutes}) or seconds ({seconds}) above 60"
+        )));
+    }
+
+    Ok(Duration::hours(hours) + Duration::minutes(minutes) + Duration::seconds(seconds))
 }
 
 pub fn ser_duration<S>(x: &Duration, s: S) -> Result<S::Ok, S::Error>
