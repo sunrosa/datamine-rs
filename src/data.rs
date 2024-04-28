@@ -1,12 +1,16 @@
 use std::path::PathBuf;
 
+use serde::de::Error;
+
 use crate::{model::Score, Config};
 
 pub fn parse_scores_dir() -> anyhow::Result<Vec<Score>> {
     let score_paths = read_scores_dir()?;
     let mut scores = score_paths.map(|p| -> anyhow::Result<Score> {
-        let score: Score =
-            serde_json::from_reader(std::fs::OpenOptions::new().read(true).open(p)?)?;
+        let score: Score = serde_json::from_reader(
+            std::fs::OpenOptions::new().read(true).open(&p)?,
+        )
+        .map_err(|e| serde_json::Error::custom(format!("{} in {}", e, p.to_str().unwrap())))?;
         Ok(score)
     });
 
