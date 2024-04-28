@@ -8,7 +8,8 @@ mod test;
 fn main() {
     println!(
         "{}",
-        serde_json::to_string(&data::parse_scores_dir().unwrap().first().unwrap().game).unwrap()
+        serde_json::to_string(&data::parse_scores_dir().unwrap().first().unwrap().game)
+            .unwrap()
     );
 }
 
