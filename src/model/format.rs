@@ -13,7 +13,7 @@ where
     let year = format!(
         "20{}",
         s.get(0..2).ok_or(de::Error::custom(
-            "Could not access first 2 chars of date (year)"
+            "Could not access first 2 chars of date (year). The string should be exactly 6 chars long."
         ))?
     )
     .parse::<i32>()
@@ -21,14 +21,14 @@ where
     let month = s
         .get(2..4)
         .ok_or(de::Error::custom(
-            "Could not access chars 3 and 4 of date (month)",
+            "Could not access chars 3 and 4 of date (month). The string should be exactly 6 chars long.",
         ))?
         .parse::<u32>()
         .map_err(|e| de::Error::custom(format!("Error parsing month into integer: {e}")))?;
     let day = s
         .get(4..6)
         .ok_or(de::Error::custom(
-            "Could not access chars 5 and 6 of date (day)",
+            "Could not access chars 5 and 6 of date (day). The string should be exactly 6 chars long.",
         ))?
         .parse::<u32>()
         .map_err(|e| de::Error::custom(format!("Error parsing day into integer: {e}")))?;
