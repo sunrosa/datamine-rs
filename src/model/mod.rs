@@ -1,5 +1,5 @@
 pub mod format;
-use chrono::NaiveDate;
+use chrono::{NaiveDate, NaiveTime};
 use format::*;
 
 use serde::{Deserialize, Serialize};
@@ -48,8 +48,8 @@ pub struct Header {
     #[serde(deserialize_with = "de_naivedate", serialize_with = "ser_naivedate")]
     pub run_end_date: NaiveDate,
 
-    // Make this a NaiveTime
-    pub run_end_time: String,
+    #[serde(deserialize_with = "de_naivetime", serialize_with = "ser_naivetime")]
+    pub run_end_time: NaiveTime,
 
     pub player_name: String,
     pub run_result: String,
