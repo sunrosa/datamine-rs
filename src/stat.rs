@@ -59,6 +59,6 @@ where
     }
 
     fn total_score(self) -> Performance {
-        self.fold(Performance::default(), move |a, b| &a + &&b.performance) // I'm starting to not like Rust anymore. Why does everything take either 230945230949 lines of code or a macro. They use on the std apparently for ops.
+        self.fold(Performance::default(), move |a, b| &a + &b.performance)
     }
 }

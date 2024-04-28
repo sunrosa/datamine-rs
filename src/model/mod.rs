@@ -76,10 +76,10 @@ pub struct Performance {
     pub bonus: CountPoints,
 }
 
-impl<'a, 'b> Add<&'a Self> for &'b Performance {
+impl Add<&Performance> for &Performance {
     type Output = Performance;
 
-    fn add(self, rhs: &'a &'b Performance) -> Self::Output {
+    fn add(self, rhs: &Performance) -> Self::Output {
         Performance {
             total_score: self.total_score + rhs.total_score,
             evolutions: &self.evolutions + &rhs.evolutions,
@@ -105,10 +105,10 @@ pub struct CountPoints {
     pub points: Option<i32>,
 }
 
-impl<'a, 'b> Add<&'a CountPoints> for &'b CountPoints {
+impl Add<&CountPoints> for &CountPoints {
     type Output = CountPoints;
 
-    fn add(self, rhs: &'a CountPoints) -> Self::Output {
+    fn add(self, rhs: &CountPoints) -> Self::Output {
         CountPoints {
             count: Some(self.count.unwrap_or_default() + rhs.count.unwrap_or_default()),
             points: Some(self.points.unwrap_or_default() + rhs.points.unwrap_or_default()),
