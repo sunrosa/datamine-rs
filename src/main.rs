@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::stat::Scores;
+use crate::stat::ScoresRef;
 
 mod data;
 mod model;
@@ -10,15 +10,7 @@ mod test;
 fn main() {
     let scores = data::parse_scores_dir().unwrap();
 
-    println!(
-        "{}",
-        scores
-            .iter()
-            .filter_player_name("Sunrosa".to_string())
-            .max_run_time()
-            .num_seconds() as f64
-            / 3600.
-    );
+    println!("{}", scores.iter().win_scores_count());
 }
 
 #[derive(Serialize, Deserialize, Debug)]
