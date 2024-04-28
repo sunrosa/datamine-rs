@@ -12,7 +12,12 @@ fn main() {
 
     println!(
         "{}",
-        scores.iter().max_run_time().num_seconds() as f64 / 3600.
+        scores
+            .iter()
+            .filter_player_name("Sunrosa".to_string())
+            .max_run_time()
+            .num_seconds() as f64
+            / 3600.
     );
 }
 
