@@ -8,14 +8,11 @@ mod stat;
 mod test;
 
 fn main() {
+    let scores = data::parse_scores_dir().unwrap();
+
     println!(
         "{}",
-        data::parse_scores_dir()
-            .unwrap()
-            .into_iter()
-            .avg_run_time()
-            .num_seconds() as f64
-            / 3600.
+        scores.into_iter().max_run_time().num_seconds() as f64 / 3600.
     );
 }
 

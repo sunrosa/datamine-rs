@@ -8,6 +8,9 @@ pub trait Scores {
 
     /// The average time spent on each run.
     fn avg_run_time(self) -> Duration;
+
+    /// The longest run.
+    fn max_run_time(self) -> Duration;
 }
 
 impl<T> Scores for T
@@ -25,5 +28,9 @@ where
         });
 
         duration / run_count
+    }
+
+    fn max_run_time(self) -> Duration {
+        self.fold(Duration::zero(), |a, b| a.max(b.game.run_time))
     }
 }
