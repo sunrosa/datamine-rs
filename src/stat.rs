@@ -20,6 +20,9 @@ pub trait ScoresRef {
 
     /// The longest run.
     fn max_run_time(self) -> Duration;
+
+    /// Total score earned across all runs.
+    fn total_score(self) -> i64;
 }
 
 impl<'a, T> ScoresRef for T
@@ -30,7 +33,7 @@ where
         self.filter(move |s| s.header.player_name == name)
     }
 
-    fn filter_wins(self) -> impl Iterator {
+    fn filter_wins(self) -> impl Iterator<Item = &'a Score> {
         self.filter(move |s| s.game.win_type != -1)
     }
 
@@ -53,5 +56,9 @@ where
 
     fn max_run_time(self) -> Duration {
         self.fold(Duration::zero(), |a, b| a.max(b.game.run_time))
+    }
+
+    fn total_score(self) -> i64 {
+        self.fold(0, |a, b| a + b.performance.total_score as i64)
     }
 }
