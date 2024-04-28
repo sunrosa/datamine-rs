@@ -10,6 +10,7 @@ where
 {
     let s: String = Deserialize::deserialize(deserializer)?;
 
+    // Parse the years, months, and days, from the input string. The year comes from only 2 digits, so add a "20" to the beginning of it first.
     let year = format!(
         "20{}",
         s.get(0..2).ok_or(de::Error::custom(
@@ -33,6 +34,7 @@ where
         .parse::<u32>()
         .map_err(|e| de::Error::custom(format!("Error parsing day into integer: {e}")))?;
 
+    // Check if the YMD are sane, and then return if so
     Ok(
         NaiveDate::from_ymd_opt(year, month, day).ok_or(de::Error::custom(format!(
             "Could not convert year ({year}), month ({month}), and day ({day}), into NaiveDate"
@@ -56,6 +58,7 @@ where
 {
     let s: String = Deserialize::deserialize(deserializer)?;
 
+    // Parse the hours, minutes, and seconds from the input string
     let hour =
         s.get(0..2).ok_or(de::Error::custom(
             "Could not access first 2 chars of date (hour). The string should be exactly 6 chars long."
@@ -77,6 +80,7 @@ where
         .parse::<u32>()
         .map_err(|e| de::Error::custom(format!("Error parsing day into integer: {e}")))?;
 
+    // Verify that the HMS are sane and return if so
     Ok(
         NaiveTime::from_hms_opt(hour, minute, second).ok_or(de::Error::custom(
             format!("Could not convert hour ({hour}), minute ({minute}), and second ({second}), into NaiveTime"),
@@ -99,8 +103,11 @@ where
     D: Deserializer<'de>,
 {
     let s: String = Deserialize::deserialize(deserializer)?;
+
+    // Split the input string into 3 splits
     let splits: Vec<&str> = s.split(':').collect();
 
+    // Confirm the input string has turned into exactly 3 splits
     if splits.len() != 3 {
         return Err(de::Error::custom(format!(
             "Number of splits incorrect: {:?}",
@@ -108,6 +115,7 @@ where
         )));
     }
 
+    // Parse the hours, minutes, and seconds from splits
     let hours = splits[0].parse().map_err(|e| {
         de::Error::custom(format!("Cannot convert {} to integer: {e}", splits[0]))
     })?;
@@ -118,6 +126,7 @@ where
         de::Error::custom(format!("Cannot convert {} to integer: {e}", splits[2]))
     })?;
 
+    // Verify that the minutes and seconds both don't exceed 60
     if minutes > 60 || seconds > 60 {
         return Err(de::Error::custom(format!(
             "Minutes ({minutes}) or seconds ({seconds}) above 60"
@@ -131,6 +140,7 @@ pub fn ser_duration<S>(x: &Duration, s: S) -> Result<S::Ok, S::Error>
 where
     S: Serializer,
 {
+    // Wacky bullshit to extrapolate the HH:MM:SS
     s.serialize_str(&format!(
         "{:0>2}:{:0>2}:{:0>2}:",
         x.num_hours(),
