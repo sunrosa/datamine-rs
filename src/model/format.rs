@@ -4,21 +4,34 @@ use serde::{
     Deserialize, Deserializer, Serializer,
 };
 
-pub fn into_naivedate<'de, D>(deserializer: D) -> Result<NaiveDate, D::Error>
+pub fn de_naivedate<'de, D>(deserializer: D) -> Result<NaiveDate, D::Error>
 where
     D: Deserializer<'de>,
 {
     let s: String = Deserialize::deserialize(deserializer)?;
 
-    let year = format!("20{}", &s[0..2])
-        .parse::<i32>()
-        .map_err(|_| de::Error::custom("Error parsing year into integer"))?;
-    let month = s[2..4]
+    let year = format!(
+        "20{}",
+        s.get(0..2).ok_or(de::Error::custom(
+            "Could not access first 2 chars of date (year)"
+        ))?
+    )
+    .parse::<i32>()
+    .map_err(|e| de::Error::custom(format!("Error parsing year into integer: {e}")))?;
+    let month = s
+        .get(2..4)
+        .ok_or(de::Error::custom(
+            "Could not access chars 3 and 4 of date (month)",
+        ))?
         .parse::<u32>()
-        .map_err(|_| de::Error::custom("Error parsing month into integer"))?;
-    let day = s[4..6]
+        .map_err(|e| de::Error::custom(format!("Error parsing month into integer: {e}")))?;
+    let day = s
+        .get(4..6)
+        .ok_or(de::Error::custom(
+            "Could not access chars 5 and 6 of date (day)",
+        ))?
         .parse::<u32>()
-        .map_err(|_| de::Error::custom("Error parsing day into integer"))?;
+        .map_err(|e| de::Error::custom(format!("Error parsing day into integer: {e}")))?;
 
     Ok(
         NaiveDate::from_ymd_opt(year, month, day).ok_or(de::Error::custom(
@@ -27,7 +40,7 @@ where
     )
 }
 
-pub fn from_naivedate<S>(x: &NaiveDate, s: S) -> Result<S::Ok, S::Error>
+pub fn ser_naivedate<S>(x: &NaiveDate, s: S) -> Result<S::Ok, S::Error>
 where
     S: Serializer,
 {

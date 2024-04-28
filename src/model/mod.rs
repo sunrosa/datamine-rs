@@ -45,7 +45,7 @@ pub struct Header {
     pub filename: String,
     pub version: String,
 
-    #[serde(deserialize_with = "into_naivedate", serialize_with = "from_naivedate")]
+    #[serde(deserialize_with = "de_naivedate", serialize_with = "ser_naivedate")]
     pub run_end_date: NaiveDate,
 
     // Make this a NaiveTime
@@ -539,10 +539,10 @@ pub struct Game {
     pub run_time: String,
     pub cumulative_hours: String,
 
-    #[serde(deserialize_with = "into_naivedate", serialize_with = "from_naivedate")]
+    #[serde(deserialize_with = "de_naivedate", serialize_with = "ser_naivedate")]
     pub run_start_date: NaiveDate,
 
-    #[serde(deserialize_with = "into_naivedate", serialize_with = "from_naivedate")]
+    #[serde(deserialize_with = "de_naivedate", serialize_with = "ser_naivedate")]
     pub run_end_date: NaiveDate,
 
     pub run_sessions: i32,
