@@ -44,8 +44,12 @@ pub struct Score {
 pub struct Header {
     pub filename: String,
     pub version: String,
-    pub run_end_date: String,
+
+    #[serde(deserialize_with = "into_naivedate", serialize_with = "from_naivedate")]
+    pub run_end_date: NaiveDate,
+
     pub run_end_time: String,
+
     pub player_name: String,
     pub run_result: String,
 
