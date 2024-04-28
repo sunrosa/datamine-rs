@@ -1,6 +1,6 @@
 use chrono::Duration;
 
-use crate::model::{Performance, Score};
+use crate::model::{Bonus, Performance, Score};
 
 pub trait ScoresRef {
     /// Filter scores where it matches player name.
@@ -23,6 +23,9 @@ pub trait ScoresRef {
 
     /// Total score earned across all runs.
     fn total_score(self) -> Performance;
+
+    /// Total bonus earned across all runs.
+    fn total_bonus(self) -> Bonus;
 }
 
 impl<'a, T> ScoresRef for T
@@ -60,5 +63,9 @@ where
 
     fn total_score(self) -> Performance {
         self.fold(Performance::default(), move |a, b| &a + &b.performance)
+    }
+
+    fn total_bonus(self) -> Bonus {
+        self.fold(Bonus::default(), |a, b| &a + &b.bonus)
     }
 }

@@ -60,7 +60,7 @@ pub struct Header {
     pub win: Option<bool>,
 }
 
-#[derive(Serialize, Deserialize, Debug, Default)]
+#[derive(Serialize, Deserialize, Debug, Default, Clone, Copy)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -116,7 +116,7 @@ impl Add<&CountPoints> for &CountPoints {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone, Copy, Default)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -157,6 +157,56 @@ pub struct Bonus {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub was_imprinted: Option<i32>,
+}
+
+impl Add<&Bonus> for &Bonus {
+    type Output = Bonus;
+
+    fn add(self, rhs: &Bonus) -> Self::Output {
+        Bonus {
+            triggered_max_security: Some(
+                self.triggered_max_security.unwrap_or_default()
+                    + rhs.triggered_max_security.unwrap_or_default(),
+            ),
+            high_alert_combat_kills: Some(
+                self.high_alert_combat_kills.unwrap_or_default()
+                    + rhs.high_alert_combat_kills.unwrap_or_default(),
+            ),
+            follower_combat_kills: Some(
+                self.follower_combat_kills.unwrap_or_default()
+                    + rhs.follower_combat_kills.unwrap_or_default(),
+            ),
+            entered_garrisons: Some(
+                self.entered_garrisons.unwrap_or_default()
+                    + rhs.entered_garrisons.unwrap_or_default(),
+            ),
+            aligned_with_farcom: Some(
+                self.aligned_with_farcom.unwrap_or_default()
+                    + rhs.aligned_with_farcom.unwrap_or_default(),
+            ),
+            used_core_reset_matrix: Some(
+                self.used_core_reset_matrix.unwrap_or_default()
+                    + rhs.used_core_reset_matrix.unwrap_or_default(),
+            ),
+            win: Some(self.win.unwrap_or_default() + rhs.win.unwrap_or_default()),
+            entered_dsfs: Some(
+                self.entered_dsfs.unwrap_or_default() + rhs.entered_dsfs.unwrap_or_default(),
+            ),
+            friendly_fire: Some(
+                self.friendly_fire.unwrap_or_default() + rhs.friendly_fire.unwrap_or_default(),
+            ),
+            met_data_miner: Some(
+                self.met_data_miner.unwrap_or_default()
+                    + rhs.met_data_miner.unwrap_or_default(),
+            ),
+            met_imprinter: Some(
+                self.met_imprinter.unwrap_or_default() + rhs.met_imprinter.unwrap_or_default(),
+            ),
+            was_imprinted: Some(
+                self.was_imprinted.unwrap_or_default() + rhs.was_imprinted.unwrap_or_default(),
+            ),
+        }
+    }
 }
 
 #[derive(Serialize, Deserialize, Debug)]
