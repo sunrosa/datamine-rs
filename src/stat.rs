@@ -13,9 +13,9 @@ pub trait Scores {
     fn max_run_time(self) -> Duration;
 }
 
-impl<T> Scores for T
+impl<'a, T> Scores for T
 where
-    T: Iterator<Item = Score>,
+    T: Iterator<Item = &'a Score>,
 {
     fn win_count(self) -> i32 {
         self.filter_map(|s| s.game.win_total)

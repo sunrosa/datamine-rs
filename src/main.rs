@@ -12,7 +12,7 @@ fn main() {
 
     println!(
         "{}",
-        scores.into_iter().max_run_time().num_seconds() as f64 / 3600.
+        scores.iter().max_run_time().num_seconds() as f64 / 3600.
     );
 }
 
