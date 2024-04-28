@@ -1,4 +1,6 @@
 pub mod format;
+use std::ops::Add;
+
 use chrono::{Duration, NaiveDate, NaiveTime};
 use format::*;
 
@@ -58,7 +60,7 @@ pub struct Header {
     pub win: Option<bool>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Default)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -74,7 +76,24 @@ pub struct Performance {
     pub bonus: CountPoints,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+impl<'a, 'b> Add<&'a Self> for &'b Performance {
+    type Output = Performance;
+
+    fn add(self, rhs: &'a &'b Performance) -> Self::Output {
+        Performance {
+            total_score: self.total_score + rhs.total_score,
+            evolutions: &self.evolutions + &rhs.evolutions,
+            regions_visited: &self.regions_visited + &rhs.regions_visited,
+            robots_destroyed: &self.robots_destroyed + &rhs.robots_destroyed,
+            value_destroyed: &self.value_destroyed + &rhs.value_destroyed,
+            prototypes_identified: &self.prototypes_identified + &rhs.prototypes_identified,
+            alien_tech_used: &self.alien_tech_used + &rhs.alien_tech_used,
+            bonus: &self.bonus + &rhs.bonus,
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug, Default, Clone, Copy)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -84,6 +103,17 @@ pub struct CountPoints {
     pub count: Option<i32>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub points: Option<i32>,
+}
+
+impl<'a, 'b> Add<&'a CountPoints> for &'b CountPoints {
+    type Output = CountPoints;
+
+    fn add(self, rhs: &'a CountPoints) -> Self::Output {
+        CountPoints {
+            count: Some(self.count.unwrap_or_default() + rhs.count.unwrap_or_default()),
+            points: Some(self.points.unwrap_or_default() + rhs.points.unwrap_or_default()),
+        }
+    }
 }
 
 #[derive(Serialize, Deserialize, Debug)]

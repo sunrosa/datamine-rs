@@ -1,6 +1,6 @@
 use chrono::Duration;
 
-use crate::model::Score;
+use crate::model::{Performance, Score};
 
 pub trait ScoresRef {
     /// Filter scores where it matches player name.
@@ -22,7 +22,7 @@ pub trait ScoresRef {
     fn max_run_time(self) -> Duration;
 
     /// Total score earned across all runs.
-    fn total_score(self) -> i64;
+    fn total_score(self) -> Performance;
 }
 
 impl<'a, T> ScoresRef for T
@@ -58,7 +58,7 @@ where
         self.fold(Duration::zero(), |a, b| a.max(b.game.run_time))
     }
 
-    fn total_score(self) -> i64 {
-        self.fold(0, |a, b| a + b.performance.total_score as i64)
+    fn total_score(self) -> Performance {
+        self.fold(Performance::default(), move |a, b| &a + &&b.performance) // I'm starting to not like Rust anymore. Why does everything take either 230945230949 lines of code or a macro. They use on the std apparently for ops.
     }
 }
