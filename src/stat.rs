@@ -1,3 +1,5 @@
+use std::borrow::Borrow;
+
 use chrono::Duration;
 
 use crate::model::{Bonus, Performance, Score};
@@ -28,20 +30,21 @@ pub trait ScoresRef {
     fn total_bonus(self) -> Bonus;
 }
 
-impl<'a, T> ScoresRef for T
+impl<T, U> ScoresRef for T
 where
-    T: Iterator<Item = &'a Score>,
+    T: Iterator<Item = U>,
+    U: Borrow<Score>,
 {
-    fn filter_player_name(self, name: String) -> impl Iterator<Item = &'a Score> {
-        self.filter(move |s| s.header.player_name == name)
+    fn filter_player_name(self, name: String) -> impl Iterator<Item = U> {
+        self.filter(move |s| s.borrow().header.player_name == name)
     }
 
-    fn filter_wins(self) -> impl Iterator<Item = &'a Score> {
-        self.filter(move |s| s.game.win_type != -1)
+    fn filter_wins(self) -> impl Iterator<Item = U> {
+        self.filter(move |s| s.borrow().game.win_type != -1)
     }
 
     fn win_count(self) -> i32 {
-        self.filter_map(|s| s.game.win_total)
+        self.filter_map(|s| s.borrow().game.win_total)
             .fold(std::i32::MIN, |a, b| a.max(b))
     }
 
@@ -51,21 +54,23 @@ where
 
     fn avg_run_time(self) -> Duration {
         let (run_count, duration) = self.fold((0, Duration::zero()), |a, b| {
-            (a.0 + 1, a.1 + b.game.run_time)
+            (a.0 + 1, a.1 + b.borrow().game.run_time)
         });
 
         duration / run_count
     }
 
     fn max_run_time(self) -> Duration {
-        self.fold(Duration::zero(), |a, b| a.max(b.game.run_time))
+        self.fold(Duration::zero(), |a, b| a.max(b.borrow().game.run_time))
     }
 
     fn total_score(self) -> Performance {
-        self.fold(Performance::default(), move |a, b| &a + &b.performance)
+        self.fold(Performance::default(), move |a, b| {
+            &a + &b.borrow().performance
+        })
     }
 
     fn total_bonus(self) -> Bonus {
-        self.fold(Bonus::default(), |a, b| &a + &b.bonus)
+        self.fold(Bonus::default(), |a, b| &a + &b.borrow().bonus)
     }
 }

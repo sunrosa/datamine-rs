@@ -10,7 +10,7 @@ mod test;
 fn main() {
     let scores = data::parse_scores_dir().unwrap();
 
-    println!("{:?}", scores.iter().total_bonus());
+    println!("{:?}", scores.into_iter().win_count());
 }
 
 #[derive(Serialize, Deserialize, Debug)]
