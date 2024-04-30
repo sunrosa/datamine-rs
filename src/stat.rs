@@ -1,4 +1,5 @@
 use std::borrow::Borrow;
+use std::fmt::Debug as DebugT;
 
 use chrono::Duration;
 
@@ -32,14 +33,14 @@ pub trait ScoresRef {
 
 impl<T, U> ScoresRef for T
 where
-    T: Iterator<Item = U>,
+    T: Iterator<Item = U> + DebugT,
     U: Borrow<Score>,
 {
-    fn filter_player_name(self, name: String) -> impl Iterator<Item = U> {
+    fn filter_player_name(self, name: String) -> impl Iterator<Item = U> + DebugT {
         self.filter(move |s| s.borrow().header.player_name == name)
     }
 
-    fn filter_wins(self) -> impl Iterator<Item = U> {
+    fn filter_wins(self) -> impl Iterator<Item = U> + DebugT {
         self.filter(move |s| s.borrow().game.win_type != -1)
     }
 
