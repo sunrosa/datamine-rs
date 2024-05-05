@@ -10,7 +10,7 @@ mod test;
 fn main() {
     let scores = data::parse_scores_dir().unwrap();
 
-    println!("{:?}", scores.iter().max_perf_individual());
+    println!("{:?}", scores.iter().total_machines_accessed());
 }
 
 #[derive(Serialize, Deserialize, Debug)]

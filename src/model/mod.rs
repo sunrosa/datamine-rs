@@ -2101,7 +2101,7 @@ pub struct Hacking {
     pub parts_scanalyzed: PartsScanalyzed,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2127,6 +2127,44 @@ pub struct MachinesAccessed {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub garrison_access: Option<i32>,
+}
+
+// I gotta get into macros for this shit.
+impl Add<&MachinesAccessed> for &MachinesAccessed {
+    type Output = MachinesAccessed;
+
+    fn add(self, rhs: &MachinesAccessed) -> Self::Output {
+        MachinesAccessed {
+            overall: Some(
+                self.overall.unwrap_or_default()
+                    + rhs.overall.unwrap_or_default(),
+            ),
+            terminals: Some(
+                self.terminals.unwrap_or_default()
+                    + rhs.terminals.unwrap_or_default(),
+            ),
+            fabricators: Some(
+                self.fabricators.unwrap_or_default()
+                    + rhs.fabricators.unwrap_or_default(),
+            ),
+            repair_stations: Some(
+                self.repair_stations.unwrap_or_default()
+                    + rhs.repair_stations.unwrap_or_default(),
+            ),
+            recycling_units: Some(
+                self.recycling_units.unwrap_or_default()
+                    + rhs.recycling_units.unwrap_or_default(),
+            ),
+            scanalyzers: Some(
+                self.scanalyzers.unwrap_or_default()
+                    + rhs.scanalyzers.unwrap_or_default(),
+            ),
+            garrison_access: Some(
+                self.garrison_access.unwrap_or_default()
+                    + rhs.garrison_access.unwrap_or_default(),
+            ),
+        }
+    }
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]

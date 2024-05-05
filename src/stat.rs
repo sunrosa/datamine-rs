@@ -3,7 +3,7 @@ use std::fmt::Debug as DebugT;
 
 use chrono::Duration;
 
-use crate::model::{Bonus, Performance, Score};
+use crate::model::{Bonus, Machines, MachinesAccessed, Performance, Score};
 
 pub trait ScoresRef {
     /// Filter scores where it matches player name.
@@ -26,6 +26,9 @@ pub trait ScoresRef {
 
     /// Total score earned across all runs.
     fn total_score(self) -> Performance;
+
+    /// Total machines accessed across all runs.
+    fn total_machines_accessed(self) -> MachinesAccessed;
 
     /// Highest performance scores across all runs. Each field is its own maximum. This performance metric is very likely not from one single run.
     fn max_perf_individual(self) -> Performance;
@@ -74,6 +77,13 @@ where
     fn total_score(self) -> Performance {
         self.fold(Performance::default(), move |a, b| {
             &a + &b.borrow().performance
+        })
+    }
+
+    fn total_machines_accessed(self) -> MachinesAccessed {
+        self.fold(MachinesAccessed::default(), |a, b| {
+            let b: &Score = b.borrow();
+            &a + &b.stats.hacking.machines_accessed
         })
     }
 
