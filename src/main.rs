@@ -10,7 +10,7 @@ mod test;
 fn main() {
     let scores = data::parse_scores_dir().unwrap();
 
-    println!("{:?}", scores.iter().filter_wins());
+    println!("{:?}", scores.iter().max_perf_individual());
 }
 
 #[derive(Serialize, Deserialize, Debug)]
