@@ -6,7 +6,7 @@ use format::*;
 
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     //TODO deny_unknown_fields
@@ -38,7 +38,7 @@ pub struct Score {
     pub route: Route,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -47,10 +47,16 @@ pub struct Header {
     pub filename: String,
     pub version: String,
 
-    #[serde(deserialize_with = "de_naivedate", serialize_with = "ser_naivedate")]
+    #[serde(
+        deserialize_with = "de_naivedate",
+        serialize_with = "ser_naivedate"
+    )]
     pub run_end_date: NaiveDate,
 
-    #[serde(deserialize_with = "de_naivetime", serialize_with = "ser_naivetime")]
+    #[serde(
+        deserialize_with = "de_naivetime",
+        serialize_with = "ser_naivetime"
+    )]
     pub run_end_time: NaiveTime,
 
     pub player_name: String,
@@ -86,7 +92,8 @@ impl Add<&Performance> for &Performance {
             regions_visited: &self.regions_visited + &rhs.regions_visited,
             robots_destroyed: &self.robots_destroyed + &rhs.robots_destroyed,
             value_destroyed: &self.value_destroyed + &rhs.value_destroyed,
-            prototypes_identified: &self.prototypes_identified + &rhs.prototypes_identified,
+            prototypes_identified: &self.prototypes_identified
+                + &rhs.prototypes_identified,
             alien_tech_used: &self.alien_tech_used + &rhs.alien_tech_used,
             bonus: &self.bonus + &rhs.bonus,
         }
@@ -110,8 +117,13 @@ impl Add<&CountPoints> for &CountPoints {
 
     fn add(self, rhs: &CountPoints) -> Self::Output {
         CountPoints {
-            count: Some(self.count.unwrap_or_default() + rhs.count.unwrap_or_default()),
-            points: Some(self.points.unwrap_or_default() + rhs.points.unwrap_or_default()),
+            count: Some(
+                self.count.unwrap_or_default() + rhs.count.unwrap_or_default(),
+            ),
+            points: Some(
+                self.points.unwrap_or_default()
+                    + rhs.points.unwrap_or_default(),
+            ),
         }
     }
 }
@@ -188,28 +200,34 @@ impl Add<&Bonus> for &Bonus {
                 self.used_core_reset_matrix.unwrap_or_default()
                     + rhs.used_core_reset_matrix.unwrap_or_default(),
             ),
-            win: Some(self.win.unwrap_or_default() + rhs.win.unwrap_or_default()),
+            win: Some(
+                self.win.unwrap_or_default() + rhs.win.unwrap_or_default(),
+            ),
             entered_dsfs: Some(
-                self.entered_dsfs.unwrap_or_default() + rhs.entered_dsfs.unwrap_or_default(),
+                self.entered_dsfs.unwrap_or_default()
+                    + rhs.entered_dsfs.unwrap_or_default(),
             ),
             friendly_fire: Some(
-                self.friendly_fire.unwrap_or_default() + rhs.friendly_fire.unwrap_or_default(),
+                self.friendly_fire.unwrap_or_default()
+                    + rhs.friendly_fire.unwrap_or_default(),
             ),
             met_data_miner: Some(
                 self.met_data_miner.unwrap_or_default()
                     + rhs.met_data_miner.unwrap_or_default(),
             ),
             met_imprinter: Some(
-                self.met_imprinter.unwrap_or_default() + rhs.met_imprinter.unwrap_or_default(),
+                self.met_imprinter.unwrap_or_default()
+                    + rhs.met_imprinter.unwrap_or_default(),
             ),
             was_imprinted: Some(
-                self.was_imprinted.unwrap_or_default() + rhs.was_imprinted.unwrap_or_default(),
+                self.was_imprinted.unwrap_or_default()
+                    + rhs.was_imprinted.unwrap_or_default(),
             ),
         }
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -227,7 +245,7 @@ pub struct Cogmind {
     pub movement: Movement,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -239,7 +257,7 @@ pub struct CurrentMaximum {
     pub maximum: i32,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -252,7 +270,7 @@ pub struct Temperature {
     pub value: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -264,7 +282,7 @@ pub struct Location {
     pub map: String,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -279,7 +297,7 @@ pub struct Movement {
     pub overweight_factor: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -292,7 +310,7 @@ pub struct Parts {
     pub inventory: SlotsParts,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -304,7 +322,7 @@ pub struct SlotsParts {
     pub parts: Option<Vec<String>>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -315,7 +333,7 @@ pub struct PeakState {
     pub rating: i32,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -327,7 +345,7 @@ pub struct Favorites {
     pub weapon: WeaponFavorites,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -345,7 +363,7 @@ pub struct PowerFavorites {
     pub reactor: Option<String>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -368,7 +386,7 @@ pub struct PropulsionFavorites {
     pub wheel: Option<String>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -392,7 +410,7 @@ pub struct UtilityFavorites {
     pub protection: Option<String>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -420,9 +438,15 @@ pub struct WeaponFavorites {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub impact_weapon: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub slashing_weapon: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub piercing_weapon: Option<String>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -431,7 +455,7 @@ pub struct ClassDistribution {
     pub classes: Vec<ClassPercent>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -441,7 +465,7 @@ pub struct ClassPercent {
     pub percent: i32,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -451,7 +475,7 @@ pub struct HistoryEventWin {
     pub event: String,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -460,7 +484,7 @@ pub struct LastMessages {
     pub messages: Vec<String>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -469,7 +493,7 @@ pub struct Map {
     pub lines: Vec<String>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -573,9 +597,18 @@ pub struct BestStates {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub particle_charging: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub power_shielding: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub melee_accuracy: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub corruption_block: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -585,7 +618,7 @@ pub struct AlienTechUsed {
     pub parts: Option<Vec<String>>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -595,21 +628,21 @@ pub struct Achievements {
     pub achievements: Option<Vec<String>>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
 )]
 pub struct Challenges {}
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
 )]
 pub struct CogshopPurchases {}
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -620,10 +653,16 @@ pub struct Game {
     pub run_time: Duration,
     pub cumulative_hours: String,
 
-    #[serde(deserialize_with = "de_naivedate", serialize_with = "ser_naivedate")]
+    #[serde(
+        deserialize_with = "de_naivedate",
+        serialize_with = "ser_naivedate"
+    )]
     pub run_start_date: NaiveDate,
 
-    #[serde(deserialize_with = "de_naivedate", serialize_with = "ser_naivedate")]
+    #[serde(
+        deserialize_with = "de_naivedate",
+        serialize_with = "ser_naivedate"
+    )]
     pub run_end_date: NaiveDate,
 
     pub run_sessions: i32,
@@ -639,7 +678,7 @@ pub struct Game {
     pub achievement_percent: i32,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -660,7 +699,7 @@ pub struct Options {
     pub steam: String,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -673,7 +712,7 @@ pub struct Meta {
     pub run_id: i32,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all(serialize = "camelCase", deserialize = "camelCase"))]
 pub struct Stats {
     pub build: Build,
@@ -692,7 +731,7 @@ pub struct Stats {
     pub actions: Actions,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -711,7 +750,7 @@ pub struct Build {
     pub scrap_engine_consumption: ScrapEngineConsumption,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -733,7 +772,7 @@ pub struct SlotsEvolved {
     pub weapon: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -753,7 +792,7 @@ pub struct PartsAttached {
     pub corrupted_parts: CorruptedParts,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -772,7 +811,7 @@ pub struct PowerAttached {
     pub reactor: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -797,7 +836,7 @@ pub struct PropulsionAttached {
     pub wheel: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -822,7 +861,7 @@ pub struct UtilityAttached {
     pub protection: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -851,9 +890,15 @@ pub struct WeaponAttached {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub impact_weapon: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub slashing_weapon: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub piercing_weapon: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -866,7 +911,7 @@ pub struct CorruptedParts {
     pub system_corruption: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -894,7 +939,7 @@ pub struct PartsLost {
     pub to_critical_strikes: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -959,9 +1004,18 @@ pub struct AverageSlotUsagePercent {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub reactor: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub slashing_weapon: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub piercing_weapon: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub impact_weapon: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -979,7 +1033,7 @@ pub struct HeaviestBuild {
     pub average_overweight_times: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1000,7 +1054,7 @@ pub struct LargestInventoryCapacity {
     pub final_carried: i32,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1016,7 +1070,7 @@ pub struct ScrapEngineConsumption {
     pub constructs_modified: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1035,7 +1089,7 @@ pub struct Resources {
     pub parts_self_destructed: PartsSelfDestructed,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1045,7 +1099,7 @@ pub struct MatterCollected {
     pub overall: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1058,7 +1112,7 @@ pub struct SalvageCreated {
     pub parts: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1071,7 +1125,7 @@ pub struct PartsFieldRecycled {
     pub retrieved_matter: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1084,7 +1138,7 @@ pub struct PartsSelfDestructed {
     pub prevented: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1096,7 +1150,7 @@ pub struct Kills {
     pub max_kills_in_single_turn: MaxKillsInSingleTurn,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1118,7 +1172,7 @@ pub struct CombatHostilesDestroyed {
     pub aoe: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1198,9 +1252,12 @@ pub struct ClassesDestroyed {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub mutant: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub packrat: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1213,7 +1270,7 @@ pub struct BestKillStreak {
     pub combat_bots_only: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1232,7 +1289,7 @@ pub struct MaxKillsInSingleTurn {
     pub melee: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1272,7 +1329,7 @@ pub struct Combat {
     pub hostile_shots_fired: HostileShotsFired,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1297,7 +1354,7 @@ pub struct DamageTaken {
     pub ignored_by_resistances: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1313,7 +1370,7 @@ pub struct VolleysFired {
     pub hottest: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1364,7 +1421,7 @@ pub struct ShotsFired {
     pub secondary_targets: SecondaryTargets,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1377,7 +1434,7 @@ pub struct SecondaryTargets {
     pub max_gunslinging_chain: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1398,7 +1455,7 @@ pub struct ShotsHitRobots {
     pub critical_strikes: CriticalStrikes,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1421,9 +1478,12 @@ pub struct CriticalStrikes {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub corrupt: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub sever: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1435,17 +1495,23 @@ pub struct MeleeAttacks {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub impact: Option<i32>,
 
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub slashing: Option<i32>,
+
     pub sneak_attacks: SneakAttacks,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
 )]
-pub struct SneakAttacks {}
+pub struct SneakAttacks {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub overall: Option<i32>,
+}
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1483,9 +1549,12 @@ pub struct DamageInflicted {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub melee: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub slashing: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1500,10 +1569,13 @@ pub struct HighestCorruption {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub corruption_purged: Option<i32>,
 
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub corruption_blocked: Option<i32>,
+
     pub effects: HighestCorruptionEffects,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1549,7 +1621,7 @@ pub struct HighestCorruptionEffects {
     pub weapon_failures: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1561,7 +1633,7 @@ pub struct OverloadShots {
     pub effects: OverloadShotsEffects,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1577,7 +1649,7 @@ pub struct OverloadShotsEffects {
     pub heat_surge: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1596,7 +1668,7 @@ pub struct OverflowDamage {
     pub melee: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1615,7 +1687,7 @@ pub struct Knockbacks {
     pub secondary: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1631,7 +1703,7 @@ pub struct SelfInflictedDamage {
     pub rammed: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1647,7 +1719,7 @@ pub struct TargetsRammed {
     pub crushed: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1665,7 +1737,7 @@ pub struct HighestTemperature {
     pub effects: HighestTemperatureEffects,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1699,14 +1771,14 @@ pub struct HighestTemperatureEffects {
     pub short_circuit: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
 )]
 pub struct SiegeActivations {}
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1725,7 +1797,7 @@ pub struct RobotsCorrupted {
     pub impact_corruptions: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1744,7 +1816,7 @@ pub struct RobotsMelted {
     pub heat_transferred: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1757,7 +1829,7 @@ pub struct LatentEnergyUsed {
     pub le_corruption: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1770,7 +1842,7 @@ pub struct HostileShotsFired {
     pub missed: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1793,7 +1865,7 @@ pub struct Alert {
     pub searches_triggered: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1809,7 +1881,7 @@ pub struct PeakInfluence {
     pub initial_influence: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1840,7 +1912,7 @@ pub struct MaximumAlertLevel {
     pub max_security: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1865,7 +1937,7 @@ pub struct SquadsDispatched {
     pub garrison: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1881,7 +1953,7 @@ pub struct Stealth {
     id_masks_used: IdMasksUsed,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1894,7 +1966,7 @@ pub struct CommunicationsJammed {
     pub distress_signals: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1910,14 +1982,14 @@ pub struct TimesSpotted {
     pub tactical_retreats: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
 )]
 pub struct IdMasksUsed {}
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1930,7 +2002,7 @@ pub struct Traps {
     pub time_bombs_activated: TimeBombsActivated,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1943,7 +2015,7 @@ pub struct TrapsTriggered {
     pub indirectly: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1951,9 +2023,12 @@ pub struct TrapsTriggered {
 pub struct TrapHackAttempts {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub disarmed: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub reprogrammed: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1963,21 +2038,21 @@ pub struct TrapsExtracted {
     pub triggered: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
 )]
 pub struct ObjectsRigged {}
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
 )]
 pub struct TimeBombsActivated {}
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -1986,7 +2061,7 @@ pub struct Machines {
     pub machines_disabled: MachinesDisabled,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2002,7 +2077,7 @@ pub struct MachinesDisabled {
     pub garrison_access: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2026,7 +2101,7 @@ pub struct Hacking {
     pub parts_scanalyzed: PartsScanalyzed,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2054,7 +2129,7 @@ pub struct MachinesAccessed {
     pub garrison_access: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2093,7 +2168,7 @@ pub struct TotalHacks {
     pub garrison_access: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2106,7 +2181,7 @@ pub struct FailedHacks {
     pub catastrophic: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2135,6 +2210,9 @@ pub struct TerminalHacks {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub terminal_index: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub machine_index: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub alert_level: Option<i32>,
@@ -2173,6 +2251,9 @@ pub struct TerminalHacks {
     pub locate_traps: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
+    pub reprogram_traps: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub recall_reinforcements: Option<i32>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -2192,9 +2273,21 @@ pub struct TerminalHacks {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub hauler_manifests: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub dispatch_records: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub garrison_status: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub recall_extermination: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub transport_status: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2213,7 +2306,7 @@ pub struct FabricatorHacks {
     pub build: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2229,7 +2322,7 @@ pub struct RepairStationHacks {
     pub repair: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2251,7 +2344,7 @@ pub struct RecyclingUnitHacks {
     pub retrieve_matter: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2267,7 +2360,7 @@ pub struct ScanalyzerHacks {
     pub analyze: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2286,7 +2379,7 @@ pub struct GarrisonAccessHacks {
     pub coupler_status: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2303,7 +2396,7 @@ pub struct UnauthorizedHacks {
     pub garrison_access: GarrisonAccessUnauthorizedHacks,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2320,23 +2413,26 @@ pub struct TerminalUnauthorizedHacks {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub assimilate: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub track: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
 )]
 pub struct FabricatorUnauthorizedHacks {}
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
 )]
 pub struct RepairStationUnauthorizedHacks {}
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2350,23 +2446,26 @@ pub struct RecyclingUnitUnauthorizedHacks {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub tunnel: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub monitor: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
 )]
 pub struct ScanalyzerUnauthorizedHacks {}
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
 )]
 pub struct GarrisonAccessUnauthorizedHacks {}
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2379,7 +2478,7 @@ pub struct DataCoresRecovered {
     pub used: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2394,14 +2493,14 @@ pub struct HackingDetections {
     pub feedback_events: FeedbackEvents,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
 )]
 pub struct FeedbackEvents {}
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2413,14 +2512,14 @@ pub struct RobotSchematicsAcquired {
     pub robots_built: RobotsBuilt,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
 )]
 pub struct RobotsBuilt {}
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2435,7 +2534,7 @@ pub struct PartSchematicsAcquired {
     pub total_part_build_rating: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2448,7 +2547,7 @@ pub struct PartsBuilt {
     pub time: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2461,7 +2560,7 @@ pub struct PartsRepaired {
     pub time: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2471,7 +2570,7 @@ pub struct PartsRecycled {
     pub retrieved_components: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2487,7 +2586,7 @@ pub struct PartsScanalyzed {
     pub parts_damaged: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2503,14 +2602,14 @@ pub struct Bothacking {
     pub robots_rewired: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
 )]
 pub struct UsedRifInstaller {}
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2523,7 +2622,7 @@ pub struct RobotsHacked {
     pub non_combat: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2545,7 +2644,7 @@ pub struct RobotHacksApplied {
     pub find_chute: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2561,14 +2660,14 @@ pub struct RelayCouplersReleased {
     pub programmers: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
 )]
 pub struct FabnetPeakEffectivePercent {}
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2585,7 +2684,7 @@ pub struct Allies {
     pub warlord_squad_rendezvous: WarlordSquadRendezvous,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2604,7 +2703,7 @@ pub struct TotalAllies {
     pub highest_rated_ally: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2620,7 +2719,7 @@ pub struct ZioniteDispatches {
     pub light: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2639,7 +2738,7 @@ pub struct TotalOrders {
     pub follow: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2655,14 +2754,14 @@ pub struct AllyAttacks {
     pub kills: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
 )]
 pub struct WarlordSquadRendezvous {}
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2679,7 +2778,7 @@ pub struct Intel {
     pub zionite_intel_received: ZioniteIntelReceived,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2692,7 +2791,7 @@ pub struct DroneLaunches {
     pub drone_recoveries: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2718,9 +2817,12 @@ pub struct Decoded0b10Intel {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub guards: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub garrisons: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2739,7 +2841,7 @@ pub struct ZioniteIntelReceived {
     pub unaware_analyses: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2762,7 +2864,7 @@ pub struct Exploration {
     pub terrain_rammed: TerrainRammed,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2811,7 +2913,7 @@ pub struct SpacesMoved {
     cave_ins_triggered: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2832,7 +2934,7 @@ pub struct ExplorationRatePercent {
     pub unknown_exits_taken: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2845,7 +2947,7 @@ pub struct RegionsVisited {
     pub branch_regions: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2859,16 +2961,19 @@ pub struct TerrainDestroyed {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub aoe: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub melee: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
 )]
 pub struct TerrainRammed {}
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2877,7 +2982,7 @@ pub struct Actions {
     pub total: TotalActions,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2938,7 +3043,7 @@ pub struct TotalActions {
     pub miscellaneous: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2947,7 +3052,7 @@ pub struct Route {
     pub entries: Vec<RouteEntry>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2968,7 +3073,7 @@ pub struct RouteEntry {
     pub fabricated_objects: Option<Vec<FabricatedObject>>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2987,7 +3092,7 @@ pub struct DiscoveredExit {
     pub count: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -2997,7 +3102,7 @@ pub struct HistoryEvent {
     pub event: String,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
@@ -3012,7 +3117,7 @@ pub struct Schematic {
     pub method: Option<String>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
     deny_unknown_fields
