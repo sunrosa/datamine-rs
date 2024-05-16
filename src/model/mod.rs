@@ -2132,12 +2132,12 @@ pub struct MachinesAccessed {
 
 macros::impl_add_stats!(
     MachinesAccessed,
-    overall,
-    terminals,
-    fabricators,
-    repair_stations,
-    recycling_units,
-    scanalyzers,
+    overall;
+    terminals;
+    fabricators;
+    repair_stations;
+    recycling_units;
+    scanalyzers;
     garrison_access
 );
 
@@ -2180,6 +2180,21 @@ pub struct TotalHacks {
     pub garrison_access: Option<i32>,
 }
 
+macros::impl_add_stats!(
+    TotalHacks,
+    overall;
+    successful;
+    database_lockouts;
+    manual;
+    terminals;
+    fabricators;
+    repair_stations;
+    recycling_units;
+    scanalyzers;
+    garrison_access,
+    failed
+);
+
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
     rename_all(serialize = "camelCase", deserialize = "camelCase"),
@@ -2192,6 +2207,8 @@ pub struct FailedHacks {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub catastrophic: Option<i32>,
 }
+
+macros::impl_add_stats!(FailedHacks, overall; catastrophic);
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
