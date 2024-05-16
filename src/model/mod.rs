@@ -2130,7 +2130,7 @@ pub struct MachinesAccessed {
     pub garrison_access: Option<i32>,
 }
 
-macros::impl_add_stats!(
+macros::impl_add_stat!(
     MachinesAccessed,
     overall;
     terminals;
@@ -2180,7 +2180,7 @@ pub struct TotalHacks {
     pub garrison_access: Option<i32>,
 }
 
-macros::impl_add_stats!(
+macros::impl_add_stat!(
     TotalHacks,
     overall;
     successful;
@@ -2208,113 +2208,44 @@ pub struct FailedHacks {
     pub catastrophic: Option<i32>,
 }
 
-macros::impl_add_stats!(FailedHacks, overall; catastrophic);
+macros::impl_add_stat!(FailedHacks, overall; catastrophic);
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
-#[serde(
-    rename_all(serialize = "camelCase", deserialize = "camelCase"),
-    deny_unknown_fields
-)]
-pub struct TerminalHacks {
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub overall: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub record: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub part_schematic: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub robot_schematic: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub robot_analysis: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub prototype_id_bank: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub open_door: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub terminal_index: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub machine_index: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub alert_level: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub patrol_status: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub registered_components: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub open_dsf: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub unreport_threat: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub level_access_points: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub branch_access_points: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub emergency_access_points: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub fabricator_index: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub recycling_unit_index: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub repair_station_index: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub locate_traps: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub reprogram_traps: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub recall_reinforcements: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub recall_investigation: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub zone_layout: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub maintenance_status: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub security_status: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub disarm_traps: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub hauler_manifests: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub dispatch_records: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub garrison_status: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub recall_extermination: Option<i32>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub transport_status: Option<i32>,
-}
+macros::stat!(
+    pub TerminalHacks,
+    overall;
+    record;
+    part_schematic;
+    robot_schematic;
+    robot_analysis;
+    prototype_id_bank;
+    open_door;
+    terminal_index;
+    machine_index;
+    alert_level;
+    patrol_status;
+    registered_components;
+    open_dsf;
+    unreport_threat;
+    level_access_points;
+    branch_access_points;
+    emergency_access_points;
+    fabricator_index;
+    recycling_unit_index;
+    repair_station_index;
+    locate_traps;
+    reprogram_traps;
+    recall_reinforcements;
+    recall_investigation;
+    zone_layout;
+    maintenance_status;
+    security_status;
+    disarm_traps;
+    hauler_manifests;
+    dispatch_records;
+    garrison_status;
+    recall_extermination;
+    transport_status
+);
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(
